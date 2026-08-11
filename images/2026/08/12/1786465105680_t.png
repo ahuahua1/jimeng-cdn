@@ -1,0 +1,2002 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>即梦故事版 · Seedance Storyboard</title>
+<style>
+/* ============================================================
+   CSS Design System — Dark Theme (shared with 即梦工作台)
+   ============================================================ */
+:root {
+  --bg-primary:    #0D0F14;
+  --bg-secondary:  #14161C;
+  --bg-tertiary:   #1A1D24;
+  --bg-elevated:   #1E2129;
+  --bg-input:      #111318;
+  --border-default: #252830;
+  --border-active:  #3A3E48;
+  --border-accent:  rgba(74,158,255,0.3);
+  --text-primary:    #E8ECF2;
+  --text-secondary:  #8B8FA0;
+  --text-tertiary:   #555A68;
+  --accent:         #4A9EFF;
+  --accent-hover:   #5DB0FF;
+  --accent-purple:  #7C5CFC;
+  --accent-orange:  #F59E0B;
+  --accent-green:   #34D399;
+  --accent-glow:    rgba(74,158,255,0.2);
+  --success:        #34D399;
+  --success-bg:     rgba(52,211,153,0.12);
+  --warning:        #F59E0B;
+  --warning-bg:     rgba(245,158,11,0.12);
+  --danger:         #EF4444;
+  --danger-bg:      rgba(239,68,68,0.12);
+  --gradient-btn:   linear-gradient(135deg, #4A9EFF 0%, #7C5CFC 100%);
+  --gradient-btn-hover: linear-gradient(135deg, #5DB0FF 0%, #9277FF 100%);
+  --gradient-glow:  radial-gradient(ellipse at center, rgba(74,158,255,0.08) 0%, transparent 70%);
+  --shadow-sm:      0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md:      0 4px 12px rgba(0,0,0,0.5);
+  --shadow-lg:      0 8px 32px rgba(0,0,0,0.6);
+  --shadow-glow:    0 0 24px rgba(74,158,255,0.12);
+  --space-1:  4px;   --space-2:  8px;   --space-3:  12px;
+  --space-4:  16px;  --space-5:  20px;  --space-6:  24px;
+  --space-8:  32px;  --space-10: 40px;  --space-12: 48px;
+  --radius-sm: 6px;  --radius-md: 10px;  --radius-lg: 16px;
+  --radius-full: 9999px;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+  --font-mono: "SF Mono", "Fira Code", "Cascadia Code", "Consolas", monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  height: 100vh; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { cursor: pointer; font-family: inherit; border: none; outline: none; }
+input, textarea, select { font-family: inherit; outline: none; }
+ul, ol { list-style: none; }
+img { max-width: 100%; display: block; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-active); border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
+
+/* ============================================================
+   Header
+   ============================================================ */
+#app-header {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px; padding: 0 var(--space-6);
+  background: var(--bg-secondary); border-bottom: 1px solid var(--border-default);
+  flex-shrink: 0; z-index: 100;
+}
+.header-left { display: flex; align-items: center; gap: var(--space-3); }
+.header-logo {
+  width: 32px; height: 32px; background: linear-gradient(135deg, #7C5CFC 0%, #F59E0B 100%);
+  border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.header-title { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.3px; }
+.header-subtitle { font-size: 0.72rem; color: var(--text-tertiary); }
+.header-right { display: flex; align-items: center; gap: var(--space-4); }
+.api-key-indicator { display: flex; align-items: center; gap: var(--space-2); font-size: 0.8rem; color: var(--text-secondary); cursor: pointer; }
+.api-key-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger); transition: background 0.3s; }
+.api-key-dot.active { background: var(--success); box-shadow: 0 0 8px rgba(52,211,153,0.5); }
+.btn-icon {
+  width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+  background: var(--bg-tertiary); border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm); color: var(--text-secondary); font-size: 1rem; transition: all 0.2s;
+}
+.btn-icon:hover { background: var(--bg-elevated); border-color: var(--border-active); color: var(--text-primary); }
+.nav-link {
+  font-size: 0.78rem; color: var(--text-secondary); padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm); transition: all 0.2s; text-decoration: none;
+}
+.nav-link:hover { color: var(--text-primary); background: var(--bg-tertiary); }
+.nav-link .arrow { font-size: 0.65rem; margin-left: 2px; }
+
+/* ============================================================
+   Modal
+   ============================================================ */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center; z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.modal-card {
+  background: var(--bg-elevated); border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg); padding: var(--space-8); width: 540px; max-width: 94vw;
+  box-shadow: var(--shadow-lg); animation: slideUp 0.3s ease; max-height: 85vh; overflow-y: auto;
+}
+.modal-card h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: var(--space-1); }
+.modal-card .modal-desc { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: var(--space-5); line-height: 1.6; }
+.modal-card label {
+  display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-secondary);
+  margin-bottom: var(--space-1); text-transform: uppercase; letter-spacing: 0.5px;
+}
+.input-field {
+  width: 100%; height: 40px; padding: 0 var(--space-3);
+  background: var(--bg-input); border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm); color: var(--text-primary); font-size: 0.85rem; transition: border-color 0.2s;
+}
+.input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.input-field::placeholder { color: var(--text-tertiary); }
+select.input-field { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238B8FA0' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  height: 40px; padding: 0 var(--space-5); border-radius: var(--radius-sm);
+  font-size: 0.85rem; font-weight: 600; transition: all 0.2s; white-space: nowrap;
+}
+.btn-primary { background: var(--gradient-btn); color: #fff; box-shadow: var(--shadow-glow); }
+.btn-primary:hover { background: var(--gradient-btn-hover); transform: translateY(-1px); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-secondary { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-default); }
+.btn-secondary:hover { background: var(--bg-elevated); border-color: var(--border-active); }
+.btn-ghost { background: transparent; color: var(--text-secondary); padding: 0 var(--space-3); height: 32px; font-size: 0.78rem; }
+.btn-ghost:hover { color: var(--text-primary); }
+.btn-sm { height: 32px; font-size: 0.75rem; padding: 0 var(--space-3); }
+.btn-xs { height: 26px; font-size: 0.7rem; padding: 0 var(--space-2); }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner {
+  display: inline-block; width: 14px; height: 14px;
+  border: 2px solid var(--text-tertiary); border-top-color: var(--accent);
+  border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle;
+}
+
+/* ============================================================
+   Workspace Layout
+   ============================================================ */
+#workspace { display: flex; flex: 1; overflow: hidden; }
+
+/* ============================================================
+   Left Control Panel (380px)
+   ============================================================ */
+#control-panel {
+  width: 380px; min-width: 300px; max-width: 600px; flex-shrink: 0;
+  overflow-y: auto; padding: var(--space-5);
+  border-right: 1px solid var(--border-default); background: var(--bg-primary);
+  display: flex; flex-direction: column; gap: var(--space-4);
+}
+.panel-divider {
+  width: 5px; flex-shrink: 0; background: transparent;
+  cursor: col-resize; transition: background 0.15s; position: relative; z-index: 10;
+}
+.panel-divider:hover, .panel-divider.dragging { background: var(--accent); }
+.panel-divider::after {
+  content: ''; position: absolute; left: -4px; right: -4px; top: 0; bottom: 0;
+}
+.panel-section {
+  background: var(--bg-secondary); border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg); padding: var(--space-4);
+}
+.panel-section-header {
+  font-size: 0.72rem; font-weight: 600; color: var(--text-secondary);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: var(--space-3);
+  display: flex; align-items: center; gap: var(--space-2);
+}
+.panel-section-header .badge {
+  font-size: 0.65rem; padding: 1px 8px; border-radius: var(--radius-full);
+  background: var(--accent-glow); color: var(--accent); font-weight: 500;
+}
+
+/* Script section (collapsible) */
+.script-section { margin-bottom: var(--space-4); }
+.script-toggle {
+  display: flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-3) var(--space-4); background: var(--bg-tertiary);
+  border: 1px solid var(--border-default); border-radius: var(--radius-md);
+  cursor: pointer; user-select: none; transition: all 0.2s;
+  font-size: 0.8rem; font-weight: 600; color: var(--text-secondary);
+}
+.script-toggle:hover { border-color: var(--border-active); color: var(--text-primary); }
+.script-toggle .arrow { font-size: 0.6rem; transition: transform 0.2s; display: inline-block; }
+.script-toggle.open .arrow { transform: rotate(90deg); }
+.script-toggle .hint { font-weight: 400; font-size: 0.7rem; color: var(--text-tertiary); margin-left: auto; }
+.script-body { display: none; padding-top: var(--space-3); }
+.script-body.open { display: block; }
+#script-input {
+  width: 100%; min-height: 120px; max-height: 280px; padding: var(--space-3);
+  background: var(--bg-input); border: 1px solid var(--border-default);
+  border-radius: var(--radius-md); color: var(--text-primary); font-size: 0.82rem;
+  line-height: 1.7; resize: vertical; transition: border-color 0.2s;
+}
+#script-input:focus { border-color: var(--accent-purple); box-shadow: 0 0 0 3px rgba(124,92,252,0.2); }
+#script-input::placeholder { color: var(--text-tertiary); }
+
+/* Input area */
+#storyboard-input {
+  width: 100%; min-height: 220px; max-height: 400px; padding: var(--space-3);
+  background: var(--bg-input); border: 1px solid var(--border-default);
+  border-radius: var(--radius-md); color: var(--text-primary); font-size: 0.85rem;
+  line-height: 1.7; resize: vertical; transition: border-color 0.2s;
+  font-family: var(--font-mono); font-size: 0.8rem;
+}
+#storyboard-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+#storyboard-input::placeholder { color: var(--text-tertiary); font-family: var(--font-sans); }
+
+/* Input format tabs */
+.format-tabs { display: flex; gap: var(--space-1); margin-bottom: var(--space-3); }
+.format-tab {
+  padding: var(--space-1) var(--space-3); font-size: 0.72rem;
+  background: transparent; border: 1px solid transparent; border-radius: var(--radius-full);
+  color: var(--text-secondary); cursor: pointer; transition: all 0.2s;
+}
+.format-tab:hover { color: var(--text-primary); }
+.format-tab.active { background: var(--bg-tertiary); border-color: var(--border-default); color: var(--text-primary); }
+
+/* Shot count display */
+.shot-summary { font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--space-2); }
+.shot-summary strong { color: var(--accent); }
+
+/* Style presets */
+.style-preset-group { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.style-preset {
+  padding: 4px 10px; font-size: 0.72rem; background: var(--bg-input);
+  border: 1px solid var(--border-default); border-radius: var(--radius-full);
+  color: var(--text-secondary); cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.style-preset:hover { border-color: var(--border-active); color: var(--text-primary); }
+.style-preset.active { background: rgba(124,92,252,0.15); border-color: var(--accent-purple); color: var(--accent-purple); }
+
+/* Quality params */
+.param-row { display: flex; justify-content: space-between; align-items: center; padding: var(--space-2) 0; }
+.param-row + .param-row { border-top: 1px solid var(--border-default); }
+.param-row-label { font-size: 0.8rem; color: var(--text-secondary); }
+.param-row-value { font-size: 0.8rem; color: var(--text-primary); font-weight: 500; }
+
+.btn-group { display: grid; gap: var(--space-1); }
+.btn-group.col3 { grid-template-columns: repeat(3, 1fr); }
+.btn-group.col4 { grid-template-columns: repeat(4, 1fr); }
+.btn-option {
+  height: 30px; display: flex; align-items: center; justify-content: center;
+  background: var(--bg-input); border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm); font-size: 0.7rem; color: var(--text-secondary); font-weight: 500; transition: all 0.2s;
+}
+.btn-option:hover { border-color: var(--border-active); color: var(--text-primary); }
+.btn-option.active { background: rgba(74,158,255,0.15); border-color: var(--accent); color: var(--accent); }
+
+/* Generate button */
+#generate-btn { width: 100%; height: 48px; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.5px; border-radius: var(--radius-md); }
+#generate-btn.loading { pointer-events: none; }
+#generate-btn .spinner { display: none; width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+#generate-btn.loading .spinner { display: inline-block; }
+#generate-btn.loading .btn-text { display: none; }
+
+/* ============================================================
+   Right Panel — Storyboard Grid
+   ============================================================ */
+#storyboard-panel {
+  flex: 1; overflow-y: auto; padding: var(--space-5);
+  background: var(--bg-primary);
+}
+.storyboard-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-5);
+}
+.storyboard-title { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+.storyboard-actions { display: flex; gap: var(--space-2); }
+
+/* Storyboard grid */
+.sb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: var(--space-5);
+}
+
+/* Shot Card — the core element */
+.shot-card {
+  background: var(--bg-secondary); border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg); overflow: hidden; transition: all 0.25s;
+}
+.shot-card:hover { border-color: var(--border-active); box-shadow: var(--shadow-md); }
+.shot-card.generating { border-color: rgba(74,158,255,0.3); animation: cardPulse 2s ease-in-out infinite; }
+@keyframes cardPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(74,158,255,0.15); } 50% { box-shadow: 0 0 24px 4px rgba(74,158,255,0.15); } }
+.shot-card.error { border-color: rgba(239,68,68,0.3); }
+
+/* Shot header bar */
+.shot-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-tertiary); border-bottom: 1px solid var(--border-default);
+}
+.shot-number {
+  font-size: 0.85rem; font-weight: 700; color: var(--text-primary);
+  display: flex; align-items: center; gap: var(--space-2);
+}
+.shot-number .dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+.shot-number .dot.wide { background: #4A9EFF; }
+.shot-number .dot.medium { background: #7C5CFC; }
+.shot-number .dot.close { background: #F59E0B; }
+.shot-number .dot.establishing { background: #34D399; }
+.shot-type-badge {
+  font-size: 0.68rem; padding: 2px 8px; border-radius: var(--radius-full);
+  background: var(--bg-input); color: var(--text-secondary);
+}
+.shot-header-actions { display: flex; gap: var(--space-1); }
+.shot-header-actions button {
+  width: 28px; height: 28px; border-radius: var(--radius-sm); background: transparent;
+  color: var(--text-tertiary); font-size: 0.8rem; cursor: pointer; transition: all 0.15s;
+  display: flex; align-items: center; justify-content: center;
+}
+.shot-header-actions button:hover { background: var(--bg-elevated); color: var(--text-primary); }
+.shot-header-actions button.danger:hover { background: var(--danger); color: #fff; }
+
+/* Shot image area */
+.shot-image-wrap {
+  position: relative; aspect-ratio: 16/9; background: var(--bg-input);
+  overflow: hidden; display: flex; align-items: center; justify-content: center;
+}
+.shot-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
+.shot-image-wrap .placeholder {
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
+  color: var(--text-tertiary); font-size: 0.8rem;
+}
+.shot-image-wrap .placeholder .icon { font-size: 2.5rem; opacity: 0.4; }
+.shot-image-wrap .generating-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.6);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-3);
+}
+.generating-overlay .big-spinner {
+  width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.2);
+  border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+.generating-overlay .gen-text { font-size: 0.8rem; color: var(--text-secondary); }
+
+/* Shot annotations grid */
+.shot-annotations {
+  padding: var(--space-3) var(--space-4);
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: var(--space-2) var(--space-4);
+}
+.annotation-item { display: flex; flex-direction: column; gap: 2px; }
+.annotation-item.full-width { grid-column: 1 / -1; }
+.annotation-label {
+  font-size: 0.62rem; font-weight: 600; color: var(--text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.annotation-value { font-size: 0.78rem; color: var(--text-primary); line-height: 1.4; }
+.annotation-value.empty { color: var(--text-tertiary); font-style: italic; }
+
+/* Annotation icon colors */
+.annotation-label.camera { color: #4A9EFF; }
+.annotation-label.emotion { color: #F59E0B; }
+.annotation-label.dialogue { color: #7C5CFC; }
+.annotation-label.quality { color: #34D399; }
+.annotation-label.subject { color: #E879F9; }
+.annotation-label.action { color: #FB923C; }
+.annotation-label.continuity { color: #6EE7B7; }
+
+/* Shot edit panel (expanded) */
+.shot-edit-panel {
+  display: none; padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--border-default); background: var(--bg-tertiary);
+}
+.shot-edit-panel.open { display: block; }
+.shot-edit-panel .edit-row { display: flex; gap: var(--space-2); margin-bottom: var(--space-2); }
+.shot-edit-panel .edit-row:last-child { margin-bottom: 0; }
+.shot-edit-panel input {
+  flex: 1; height: 32px; padding: 0 var(--space-2);
+  background: var(--bg-input); border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm); color: var(--text-primary); font-size: 0.75rem;
+}
+.shot-edit-panel input:focus { border-color: var(--accent); }
+.shot-edit-panel .edit-row label {
+  font-size: 0.65rem; font-weight: 600; color: var(--text-tertiary);
+  text-transform: uppercase; letter-spacing: 0.3px; width: 52px; flex-shrink: 0;
+  display: flex; align-items: center;
+}
+
+/* ============================================================
+   Empty State
+   ============================================================ */
+.empty-state { text-align: center; padding: var(--space-12) var(--space-6); color: var(--text-tertiary); }
+.empty-state .empty-icon { font-size: 3.5rem; margin-bottom: var(--space-4); opacity: 0.5; }
+.empty-state h3 { font-size: 1rem; font-weight: 600; color: var(--text-secondary); margin-bottom: var(--space-2); }
+.empty-state p { font-size: 0.85rem; max-width: 400px; margin: 0 auto; line-height: 1.6; }
+
+/* ============================================================
+   Toast
+   ============================================================ */
+#toast-container { position: fixed; top: var(--space-6); right: var(--space-6); z-index: 2000; display: flex; flex-direction: column; gap: var(--space-2); pointer-events: none; }
+.toast {
+  display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-5);
+  background: var(--bg-elevated); border: 1px solid var(--border-default);
+  border-left: 3px solid var(--accent); border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md); font-size: 0.85rem; color: var(--text-primary);
+  animation: toastIn 0.3s ease; pointer-events: auto; min-width: 280px; max-width: 420px;
+}
+.toast.success { border-left-color: var(--success); }
+.toast.error { border-left-color: var(--danger); }
+.toast.warning { border-left-color: var(--warning); }
+.toast .toast-msg { flex: 1; }
+.toast .toast-close { background: none; border: none; color: var(--text-tertiary); cursor: pointer; font-size: 1rem; padding: 0; flex-shrink: 0; }
+@keyframes toastIn { from { opacity: 0; transform: translateX(100px); } to { opacity: 1; transform: translateX(0); } }
+.toast.out { animation: toastOut 0.3s ease forwards; }
+@keyframes toastOut { to { opacity: 0; transform: translateX(100px); } }
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 1000px) {
+  .sb-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 800px) {
+  #workspace { flex-direction: column; }
+  #control-panel { width: 100% !important; min-width: 100% !important; max-width: 100% !important; max-height: 50vh; border-right: none; border-bottom: 1px solid var(--border-default); }
+  .panel-divider { display: none; }
+  #storyboard-panel { max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header id="app-header">
+  <div class="header-left">
+    <div class="header-logo">📋</div>
+    <span class="header-title">即梦故事版</span>
+    <span class="header-subtitle">Seedance Storyboard · GPT Image 2</span>
+  </div>
+  <div class="header-right">
+    <a href="index.html" class="nav-link" title="回到视频工作台">🎬 视频工作台 <span class="arrow">↗</span></a>
+    <div class="api-key-indicator" id="api-key-indicator" title="Image 2 API 设置">
+      <span class="api-key-dot" id="api-key-dot"></span>
+      <span id="api-key-label">未设置 Image 2 Key</span>
+    </div>
+    <button class="btn-icon" id="settings-btn" title="API 设置">⚙️</button>
+  </div>
+</header>
+
+<!-- ============================================================
+     SETTINGS MODAL
+     ============================================================ -->
+<div class="modal-overlay" id="settings-modal" style="display:none;">
+  <div class="modal-card" style="width:500px;">
+    <h2>⚙️ Image 2 API 配置</h2>
+    <p class="modal-desc">配置 GPT Image 2 生成接口。当前使用 <strong>聚鑫 API</strong>，OpenAI 兼容格式。</p>
+
+    <label>API 端点 URL</label>
+    <input class="input-field" id="settings-endpoint" placeholder="https://api.jxincm.cn/v1" value="https://api.jxincm.cn/v1">
+
+    <label style="margin-top:var(--space-3);">模型名称</label>
+    <input class="input-field" id="settings-model" placeholder="gpt-image-2" value="gpt-image-2">
+
+    <label style="margin-top:var(--space-3);">API Key</label>
+    <div style="display:flex;gap:var(--space-2);">
+      <input class="input-field" type="password" id="settings-apikey" placeholder="输入 API Key" style="flex:1;">
+      <button class="btn btn-secondary btn-sm" id="toggle-key-btn">👁️</button>
+    </div>
+
+    <!-- Divider + LLM Config for Script Analysis -->
+    <div style="margin-top:var(--space-6);padding-top:var(--space-5);border-top:1px solid var(--border-default);">
+      <h4 style="display:flex;align-items:center;gap:var(--space-2);font-size:0.9rem;font-weight:600;cursor:pointer;user-select:none;" id="llm-config-toggle">
+        <span id="llm-toggle-arrow">▶</span> 🤖 剧本分析模型
+        <span style="font-weight:400;font-size:0.7rem;color:var(--text-tertiary);">（剧本 → 分镜词）</span>
+      </h4>
+      <div id="llm-config-body" style="display:none;">
+        <label style="margin-top:var(--space-3);">LLM API 端点</label>
+        <input class="input-field" id="settings-llm-endpoint" placeholder="https://api.jxincm.cn/v1" value="https://api.jxincm.cn/v1">
+
+        <label style="margin-top:var(--space-3);">模型名称</label>
+        <input class="input-field" id="settings-llm-model" placeholder="例如：gpt-4o / glm-4.6 / deepseek-v3" value="gpt-4o">
+
+        <label style="margin-top:var(--space-3);">API Key</label>
+        <div style="display:flex;gap:var(--space-2);">
+          <input class="input-field" type="password" id="settings-llm-apikey" placeholder="输入 LLM API Key" style="flex:1;">
+          <button class="btn btn-secondary btn-sm" id="toggle-llm-key-btn">👁️</button>
+        </div>
+        <p style="font-size:0.68rem;color:var(--text-tertiary);margin-top:var(--space-2);">📌 调用格式：<code style="color:var(--accent-purple);">POST /v1/chat/completions</code> (OpenAI 兼容)</p>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:var(--space-3);margin-top:var(--space-5);">
+      <button class="btn btn-primary" id="save-settings-btn" style="flex:1;">保存配置</button>
+      <button class="btn btn-secondary" id="close-settings-btn" style="flex:1;">取消</button>
+    </div>
+
+    <div style="margin-top:var(--space-5);padding-top:var(--space-4);border-top:1px solid var(--border-default);">
+      <p style="font-size:0.72rem;color:var(--text-tertiary);line-height:1.6;">
+        📌 图生接口：<code style="color:var(--accent);">POST /v1/images/generations</code> (OpenAI 兼容)<br>
+        📌 认证方式：Bearer Token<br>
+        📌 单次生成 1 张图片，建议并发 ≤ 3 个请求
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     WORKSPACE
+     ============================================================ -->
+<main id="workspace">
+
+  <!-- LEFT PANEL -->
+  <aside id="control-panel">
+
+    <!-- Script → Storyboard AI Section -->
+    <section class="panel-section script-section">
+      <div class="script-toggle" id="script-toggle">
+        <span class="arrow">▶</span> 📜 剧本输入
+        <span class="hint">粘贴剧本 · AI 自动转分镜词</span>
+      </div>
+      <div class="script-body" id="script-body">
+        <textarea id="script-input" placeholder="直接粘贴原始剧本、故事梗概、或小说片段……&#10;&#10;例如：&#10;林冲被发配沧州，在草料场看守草料。一个大雪纷飞的夜晚，他发现陆谦等人纵火烧草料场要害他性命。愤怒之下，林冲提枪杀死仇人，雪夜奔上梁山……&#10;&#10;AI 会自动将其转为结构化分镜词，填入下方区域并自动解析。"></textarea>
+        <div style="display:flex;gap:var(--space-2);margin-top:var(--space-2);align-items:center;">
+          <button class="btn btn-primary btn-sm" id="script-to-shots-btn" style="background:linear-gradient(135deg, #7C5CFC 0%, #F59E0B 100%);">🤖 AI 转为分镜词</button>
+          <span style="font-size:0.68rem;color:var(--text-tertiary);" id="script-llm-status"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Input Section -->
+    <section class="panel-section">
+      <div class="panel-section-header">📝 分镜词输入 <span class="badge" id="shot-count-badge" style="display:none;">0 镜</span></div>
+      <div class="format-tabs" id="format-tabs">
+        <button class="format-tab active" data-format="free">📝 自由文本</button>
+        <button class="format-tab" data-format="v99">🔷 v99 格式</button>
+        <button class="format-tab" data-format="json">{ } JSON</button>
+      </div>
+      <textarea id="storyboard-input" placeholder="粘贴分镜词到这里...&#10;&#10;支持三种格式：&#10;  📝 自由文本 — 用 ## Shot 1 / 【镜头1】 等标记分隔&#10;  🔷 v99 格式 — @@清单@@ + ▲空间锁 + Block 1-4&#10;  { } JSON — 结构化镜头数组&#10;&#10;也可以直接粘贴你的分镜词 Skill 输出，解析器会自动识别格式。"></textarea>
+      <div class="shot-summary" id="shot-summary"></div>
+      <div style="margin-top:var(--space-3);display:flex;gap:var(--space-2);">
+        <button class="btn btn-secondary btn-sm" id="parse-btn">🔍 解析分镜词</button>
+        <button class="btn btn-ghost btn-sm" id="paste-sample-btn">📋 粘贴示例</button>
+      </div>
+    </section>
+
+    <!-- Style Presets -->
+    <section class="panel-section">
+      <div class="panel-section-header">🎨 风格预设 <span style="font-weight:400;text-transform:none;font-size:0.68rem;color:var(--text-tertiary);">（一键套用全部镜头）</span></div>
+      <div class="style-preset-group" id="style-presets">
+        <button class="style-preset active" data-style="cinematic">🎬 电影感</button>
+        <button class="style-preset" data-style="ink-wash">🏔️ 水墨国风</button>
+        <button class="style-preset" data-style="cyberpunk">🌆 赛博朋克</button>
+        <button class="style-preset" data-style="anime">🎌 动漫风格</button>
+        <button class="style-preset" data-style="documentary">📹 纪录片</button>
+        <button class="style-preset" data-style="commercial">💎 商业产品</button>
+        <button class="style-preset" data-style="custom">✨ 自定义</button>
+      </div>
+      <div id="custom-style-area" style="display:none;margin-top:var(--space-2);">
+        <input class="input-field" id="custom-style-input" placeholder="输入自定义风格描述，例如：lo-fi 90s VHS tape, muted pastel palette, soft grain..." style="height:34px;font-size:0.78rem;">
+      </div>
+    </section>
+
+    <!-- Quality Parameters -->
+    <section class="panel-section">
+      <div class="panel-section-header">⚙️ 画质与参数</div>
+
+      <div class="param-row">
+        <span class="param-row-label">画面比例</span>
+        <span class="param-row-value" id="ratio-value">16:9</span>
+      </div>
+      <div class="btn-group col3" id="ratio-group" style="margin-bottom:var(--space-2);">
+        <button class="btn-option active" data-value="16:9">16:9 横屏</button>
+        <button class="btn-option" data-value="9:16">9:16 竖屏</button>
+        <button class="btn-option" data-value="1:1">1:1 方形</button>
+      </div>
+
+      <div class="param-row">
+        <span class="param-row-label">画质等级</span>
+      </div>
+      <div class="btn-group col4" id="quality-presets" style="margin-bottom:var(--space-2);">
+        <button class="btn-option" data-quality="standard">标准</button>
+        <button class="btn-option active" data-quality="high">高清</button>
+        <button class="btn-option" data-quality="cinematic">电影级</button>
+        <button class="btn-option" data-quality="custom">自定义</button>
+      </div>
+      <div id="custom-quality-area" style="display:none;">
+        <input class="input-field" id="custom-quality-input" placeholder="自定义画质描述，例如：8K, photorealistic, shallow depth of field, film grain..." style="height:34px;font-size:0.78rem;">
+      </div>
+
+      <div class="param-row" style="margin-top:var(--space-2);">
+        <span class="param-row-label">负面约束</span>
+      </div>
+      <input class="input-field" id="negative-constraints" placeholder="例如：no text, no watermark, no distorted faces, no extra limbs, no blurry details" value="no text, no watermark, no distorted faces, no extra limbs, no blurry details" style="height:34px;font-size:0.75rem;">
+    </section>
+
+    <!-- Generate -->
+    <button class="btn btn-primary" id="generate-btn">
+      <span class="spinner"></span>
+      <span class="btn-text">🚀 生成全部故事版图</span>
+    </button>
+  </aside>
+
+  <div class="panel-divider" id="panel-divider"></div>
+
+  <!-- RIGHT PANEL — Storyboard Grid -->
+  <section id="storyboard-panel">
+    <div id="storyboard-content">
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">📋</div>
+        <h3>等待分镜词</h3>
+        <p>在左侧粘贴剧本点「AI 转为分镜词」，或直接粘贴分镜词点「解析」。亦可点「粘贴示例」快速体验。</p>
+      </div>
+      <div id="grid-container" style="display:none;">
+        <div class="storyboard-header">
+          <span class="storyboard-title" id="storyboard-title">🎬 故事版预览</span>
+          <div class="storyboard-actions">
+            <button class="btn btn-secondary btn-sm" id="export-all-btn">📥 导出全部图片</button>
+            <button class="btn btn-secondary btn-sm" id="copy-prompts-btn">📋 复制全部提示词</button>
+            <button class="btn btn-ghost btn-sm" id="clear-all-btn" style="color:var(--danger);">🗑️ 清除</button>
+          </div>
+        </div>
+        <div class="sb-grid" id="sb-grid"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     TOAST
+     ============================================================ -->
+<div id="toast-container"></div>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+(function() {
+'use strict';
+
+/* ================================================================
+   Storage
+   ================================================================ */
+const Storage = {
+  KEYS: {
+    IMAGE_API: 'sb_image_api_config',
+    LLM_SCRIPT: 'sb_llm_script_config',
+    LAST_INPUT: 'sb_last_input',
+    LAST_SHOTS: 'sb_last_shots',
+  },
+  get(key, fallback) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch { return fallback; } },
+  set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch { return false; } },
+  remove(key) { try { localStorage.removeItem(key); } catch {} },
+};
+
+/* ================================================================
+   Helper
+   ================================================================ */
+function uid() { return 's' + Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+/* ================================================================
+   App State
+   ================================================================ */
+const AppState = {
+  apiConfig: Storage.get(Storage.KEYS.IMAGE_API, {
+    endpoint: 'https://api.jxincm.cn/v1',
+    model: 'gpt-image-2',
+    apiKey: '',
+  }),
+  inputFormat: 'free',   // 'free' | 'v99' | 'json'
+  stylePreset: 'cinematic',
+  ratio: '16:9',
+  qualityLevel: 'high',
+  shots: [],             // Parsed Shot objects
+  generating: false,
+};
+
+/* ================================================================
+   Style Preset Definitions
+   ================================================================ */
+const STYLE_PRESETS = {
+  cinematic: {
+    name: '电影感',
+    styleText: 'cinematic film still, natural lighting, shallow depth of field, subtle film grain, rich contrast, muted color palette, anamorphic lens character',
+    qualityText: '4K, photorealistic, detailed textures, natural skin tones',
+  },
+  'ink-wash': {
+    name: '水墨国风',
+    styleText: 'Chinese ink wash painting style, watercolor texture, misty atmosphere, soft brush strokes, rice paper background feel, elegant composition, black ink and subtle color accents',
+    qualityText: 'clean brushwork, atmospheric depth, traditional Chinese aesthetic, ethereal lighting',
+  },
+  cyberpunk: {
+    name: '赛博朋克',
+    styleText: 'cyberpunk aesthetic, neon-lit streets, volumetric fog, rain-slicked surfaces, holographic reflections, high contrast, blue and magenta color grading, gritty texture',
+    qualityText: 'cinematic lighting, detailed environment, atmospheric haze, blade runner inspired',
+  },
+  anime: {
+    name: '动漫风格',
+    styleText: 'anime key visual, cel-shaded, hand-drawn look, clean linework, vibrant colors, dramatic composition, studio anime quality',
+    qualityText: 'crisp lines, smooth gradients, dynamic posing, anime film aesthetic',
+  },
+  documentary: {
+    name: '纪录片',
+    styleText: 'documentary cinematography, natural available light, handheld feel, realistic color grading, vérité style, unpolished texture',
+    qualityText: 'naturalistic, authentic texture, real-world lighting, observational camera work',
+  },
+  commercial: {
+    name: '商业产品',
+    styleText: 'commercial product photography, clean studio lighting, seamless white backdrop, sharp focus, premium material rendering, soft reflections',
+    qualityText: '8K product shot, perfect exposure, crisp details, luxury brand aesthetic',
+  },
+  custom: {
+    name: '自定义',
+    styleText: '',
+    qualityText: '',
+  },
+};
+
+/* ================================================================
+   Quality Preset Definitions
+   ================================================================ */
+const QUALITY_PRESETS = {
+  standard: 'HD quality, clean composition, good lighting',
+  high: '4K, highly detailed, excellent lighting, sharp focus, professional color grading',
+  cinematic: '8K cinematic quality, photorealistic, shallow depth of field, film grain, anamorphic bokeh, masterful lighting, rich shadows, premium color grading',
+  custom: '',
+};
+
+/* ================================================================
+   Shot Parser — v99 / JSON / Free Text
+   ================================================================ */
+
+/**
+ * Parse storyboard input text into Shot[] array.
+ * Auto-detects format or uses the specified format.
+ */
+function parseShots(text, format) {
+  if (!text || !text.trim()) return [];
+
+  // Auto-detect format if not specified
+  if (!format || format === 'free') {
+    if (text.trim().startsWith('{') || text.trim().startsWith('[')) {
+      format = 'json';
+    } else if (text.includes('@@清单@@') || text.includes('▲空间锁')) {
+      format = 'v99';
+    } else {
+      format = 'free';
+    }
+  }
+
+  switch (format) {
+    case 'json': return parseJsonShots(text);
+    case 'v99': return parseV99Shots(text);
+    default: return parseFreeTextShots(text);
+  }
+}
+
+/* --- JSON Parser --- */
+function parseJsonShots(text) {
+  try {
+    let data = JSON.parse(text);
+    if (!Array.isArray(data)) {
+      // Maybe it's { project, shots: [...] }
+      data = data.shots || data.shotList || data.scenes || [];
+    }
+    if (!Array.isArray(data) || data.length === 0) {
+      throw new Error('JSON 中没有找到有效的镜头数组');
+    }
+    return data.map((s, i) => normalizeShot(s, i));
+  } catch (e) {
+    if (e.message.includes('JSON')) throw e;
+    // If JSON parse fails, try free text
+    console.warn('JSON parse failed, trying free text:', e.message);
+    return parseFreeTextShots(text);
+  }
+}
+
+/* --- v99 Parser --- */
+function parseV99Shots(text) {
+  const shots = [];
+
+  // v99 format: @@清单@@ + ▲空间锁 + Block 1-4 with structured fields
+  // Each Block typically starts with "Block N" or "## Block N"
+  // Extract spatial lock for all shots
+  const spaceLockMatch = text.match(/▲空间锁[：:]\s*(.+?)(?:\n|$)/);
+  const spaceLock = spaceLockMatch ? spaceLockMatch[1].trim() : '';
+
+  // Split into blocks
+  const blockRegex = /(?:##?\s*)?Block\s*(\d+)[：:]\s*([\s\S]*?)(?=(?:##?\s*)?Block\s*\d+[：:]|$)/gi;
+  let match;
+
+  while ((match = blockRegex.exec(text)) !== null) {
+    const blockNum = parseInt(match[1]);
+    const blockContent = match[2].trim();
+
+    const shot = {
+      id: 's' + blockNum,
+      shotType: extractField(blockContent, ['镜头类型', '镜别', 'Shot Type', 'shotType']),
+      subject: extractField(blockContent, ['主体', '角色', 'Subject', 'subject']),
+      action: extractField(blockContent, ['动作', 'Action', 'action']),
+      camera: extractField(blockContent, ['运镜', '镜头运动', 'Camera', 'camera', 'cameraMovement']),
+      lighting: extractField(blockContent, ['灯光', '光线', 'Lighting', 'lighting', '场景光']),
+      emotion: extractField(blockContent, ['情绪', '氛围', 'Emotion', 'emotion', 'mood']),
+      dialogue: extractField(blockContent, ['台词', '对白', 'Dialogue', 'dialogue', 'line']),
+      duration: extractField(blockContent, ['时长', 'Duration', 'duration']),
+      continuity: extractField(blockContent, ['衔接', '过渡', 'Continuity', 'continuity']),
+      quality: '',
+      imagePrompt: '',
+      imageUrl: '',
+      imageStatus: 'pending',
+      imageError: '',
+    };
+
+    // Merge space lock into subject if present
+    if (spaceLock && !shot.subject) {
+      shot.subject = spaceLock;
+    }
+
+    shots.push(normalizeShot(shot, shots.length));
+  }
+
+  // If no Block pattern found, try parsing as free text with v99 markers
+  if (shots.length === 0) {
+    return parseFreeTextShots(text);
+  }
+
+  return shots;
+}
+
+/* --- Free Text Parser --- */
+function parseFreeTextShots(text) {
+  const shots = [];
+
+  // Split by common shot separators
+  const separators = [
+    /##?\s*Shot\s*\d+/gi,
+    /【镜头\s*\d+】/g,
+    /^---+\s*$/gm,
+    /^={3,}\s*$/gm,
+    /镜头\s*\d+[：:]/g,
+    /Shot\s*\d+[：:]/gi,
+    /^\d+[\.、．]\s*/gm,
+  ];
+
+  // Try each separator
+  let parts = null;
+  for (const sep of separators) {
+    const testParts = text.split(sep).filter(p => p.trim());
+    if (testParts.length >= 2) {
+      parts = testParts;
+      break;
+    }
+  }
+
+  // If no separator works, try to split by double newlines (paragraphs)
+  if (!parts) {
+    parts = text.split(/\n\n+/).filter(p => p.trim());
+  }
+
+  // If still only 1 part, treat as single shot
+  if (parts.length < 1) {
+    parts = [text];
+  }
+
+  parts.forEach((part, i) => {
+    const content = part.trim();
+    if (!content) return;
+
+    const shot = {
+      id: 's' + (i + 1),
+      shotType: extractField(content, ['镜头类型', '镜别', 'Shot Type', 'shotType']),
+      subject: extractField(content, ['主体', '角色', 'Subject', 'subject', '描述']),
+      action: extractField(content, ['动作', 'Action', 'action', '行为']),
+      camera: extractField(content, ['运镜', '镜头运动', '镜头', 'Camera', 'camera', 'cameraMovement', '机位']),
+      lighting: extractField(content, ['灯光', '光线', '照明', 'Lighting', 'lighting', '场景光']),
+      emotion: extractField(content, ['情绪', '氛围', '情感', 'Emotion', 'emotion', 'mood']),
+      dialogue: extractField(content, ['台词', '对白', 'Dialogue', 'dialogue', 'line']),
+      duration: extractField(content, ['时长', 'Duration', 'duration']),
+      continuity: extractField(content, ['衔接', '过渡', '连续性', 'Continuity', 'continuity']),
+      quality: '',
+      imagePrompt: '',
+      imageUrl: '',
+      imageStatus: 'pending',
+      imageError: '',
+    };
+
+    // If no structured fields found, use heuristics
+    if (!shot.shotType && !shot.subject && !shot.action && !shot.camera) {
+      // Try to extract from free text
+      const lines = content.split('\n').filter(l => l.trim());
+      if (lines.length >= 1) {
+        // First line often contains shot type and subject
+        const firstLine = lines[0];
+        // Try to detect shot type
+        const stMatch = firstLine.match(/(wide|medium|close|establishing|全景|远景|中景|近景|特写|广角|长焦)/i);
+        if (stMatch) shot.shotType = stMatch[0];
+
+        // Try to extract dialogue (in quotes)
+        for (const line of lines) {
+          const dMatch = line.match(/["""](.+?)[""」]/);
+          if (dMatch) { shot.dialogue = dMatch[1]; break; }
+        }
+
+        // Use remaining text as subject/action
+        shot.subject = firstLine.replace(/^(wide|medium|close|establishing|全景|远景|中景|近景|特写|广角|长焦)\s*/i, '').substring(0, 200);
+      }
+      if (lines.length >= 2) {
+        shot.action = lines.slice(1).join(' ').substring(0, 300);
+      }
+    }
+
+    shots.push(normalizeShot(shot, i));
+  });
+
+  return shots;
+}
+
+/** Extract a field value from text using multiple possible key names */
+function extractField(text, keys) {
+  for (const key of keys) {
+    const patterns = [
+      new RegExp(key + '\\s*[：:]\\s*(.+?)(?:\\n|$)', 'i'),
+      new RegExp(key + '\\s*[：:]\\s*(.+?)(?:[，,。]\\s*(?:' + keys.filter(k => k !== key).join('|') + ')|$)', 'i'),
+      new RegExp('\\*\\*' + key + '\\*\\*\\s*[：:]\\s*(.+?)(?:\\n|$)', 'i'),
+    ];
+    for (const p of patterns) {
+      const m = text.match(p);
+      if (m && m[1] && m[1].trim()) return m[1].trim();
+    }
+  }
+  return '';
+}
+
+/** Normalize a shot object — fill defaults, ensure all fields exist */
+function normalizeShot(shot, index) {
+  // Detect shot type from content if missing
+  let shotType = shot.shotType || '';
+  if (!shotType) {
+    const combined = (shot.camera || '') + ' ' + (shot.subject || '');
+    if (/wide|广角|全景|远景|establishing/i.test(combined)) shotType = 'Wide Shot';
+    else if (/close|特写|近景|tight/i.test(combined)) shotType = 'Close-up';
+    else if (/medium|中景|mid/i.test(combined)) shotType = 'Medium Shot';
+    else shotType = 'Medium Shot';
+  }
+
+  return {
+    id: shot.id || 's' + (index + 1),
+    shotType: shotType,
+    subject: shot.subject || '',
+    action: shot.action || '',
+    camera: shot.camera || '',
+    lighting: shot.lighting || '',
+    emotion: shot.emotion || '',
+    dialogue: shot.dialogue || '',
+    duration: shot.duration || '',
+    continuity: shot.continuity || '',
+    quality: shot.quality || '',
+    imagePrompt: shot.imagePrompt || '',
+    imageUrl: shot.imageUrl || '',
+    imageStatus: shot.imageStatus || 'pending',
+    imageError: shot.imageError || '',
+  };
+}
+
+/* ================================================================
+   Prompt Builder — Assemble full Image 2 prompt from shot + style
+   ================================================================ */
+function buildImagePrompt(shot, stylePreset, qualityLevel, ratio, customStyle, customQuality, negativeConstraints) {
+  const style = STYLE_PRESETS[stylePreset] || STYLE_PRESETS['cinematic'];
+  const styleText = stylePreset === 'custom' ? (customStyle || '') : style.styleText;
+  const qualityText = qualityLevel === 'custom' ? (customQuality || '') : (QUALITY_PRESETS[qualityLevel] || QUALITY_PRESETS['high']);
+
+  // Map ratio to Image 2 size
+  const sizeMap = { '16:9': '1792x1024', '9:16': '1024x1792', '1:1': '1024x1024' };
+
+  // Build a storyboard-quality prompt
+  const parts = ['Storyboard frame, key visual for video production.'];
+
+  if (shot.shotType) parts.push(shot.shotType + '.');
+  if (shot.subject) parts.push('Subject: ' + shot.subject + '.');
+  if (shot.action) parts.push('Action: ' + shot.action + '.');
+  if (shot.camera) parts.push('Camera: ' + shot.camera + '.');
+  if (shot.lighting) parts.push('Lighting: ' + shot.lighting + '.');
+  if (shot.emotion) parts.push('Mood/Emotion: ' + shot.emotion + '.');
+
+  // Add visual quality and style
+  parts.push('Visual style: ' + styleText + '.');
+  parts.push('Quality: ' + qualityText + '.');
+
+  // Negative constraints
+  if (negativeConstraints) {
+    parts.push('Avoid: ' + negativeConstraints + '.');
+  }
+
+  const prompt = parts.join(' ');
+  shot.size = sizeMap[ratio] || '1792x1024';
+  return prompt;
+}
+
+/* ================================================================
+   Image 2 API Client
+   ================================================================ */
+const ImageAPI = {
+  getConfig() { return AppState.apiConfig; },
+  hasKey() { return !!(AppState.apiConfig && AppState.apiConfig.apiKey); },
+
+  /**
+   * Generate a single image via GPT Image 2.
+   * @returns {Promise<{url: string}>}
+   */
+  async generateImage(prompt, size) {
+    const cfg = this.getConfig();
+    const base = cfg.endpoint.replace(/\/+$/, '');
+    const url = base + '/images/generations';
+
+    const body = {
+      model: cfg.model || 'gpt-image-2',
+      prompt: prompt,
+      n: 1,
+      size: size || '1792x1024',
+      response_format: 'url',
+    };
+
+    console.log('🖼️ POST', url, JSON.stringify({ model: body.model, size: body.size, prompt: prompt.substring(0, 100) + '...' }));
+
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + cfg.apiKey,
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!resp.ok) {
+      let errMsg = 'HTTP ' + resp.status;
+      try {
+        const errData = await resp.json();
+        errMsg = errData.error?.message || errData.message || errData.error || errMsg;
+        if (typeof errMsg === 'object') errMsg = JSON.stringify(errMsg);
+      } catch {}
+      throw new Error(errMsg);
+    }
+
+    const data = await resp.json();
+    console.log('🖼️ Response:', JSON.stringify(data).substring(0, 300));
+
+    // OpenAI format: { created, data: [{ url, revised_prompt }] }
+    if (data.data && data.data[0] && data.data[0].url) {
+      return { url: data.data[0].url, revisedPrompt: data.data[0].revised_prompt || '' };
+    }
+    // Alternative formats
+    if (data.url) return { url: data.url };
+    if (data.image_url) return { url: data.image_url };
+    if (data.images && data.images[0]) return { url: data.images[0].url || data.images[0] };
+
+    throw new Error('未在响应中找到图片 URL: ' + JSON.stringify(data).substring(0, 200));
+  },
+
+  /**
+   * Generate images for multiple shots with concurrency control.
+   * @param {Array} shots - Shot objects
+   * @param {number} concurrency - Max concurrent requests
+   * @param {Function} onProgress - Callback(shotId, status, url?)
+   */
+  async generateBatch(shots, concurrency, onProgress) {
+    concurrency = concurrency || 3;
+    const queue = [...shots];
+    const results = [];
+
+    async function worker() {
+      while (queue.length > 0) {
+        const shot = queue.shift();
+        if (!shot) break;
+        onProgress(shot.id, 'generating');
+        try {
+          const result = await ImageAPI.generateImage(shot.imagePrompt, shot.size);
+          onProgress(shot.id, 'done', result.url);
+          results.push({ id: shot.id, url: result.url, revisedPrompt: result.revisedPrompt });
+        } catch (e) {
+          console.error('Image generation failed for', shot.id, e.message);
+          onProgress(shot.id, 'error', null, e.message);
+          results.push({ id: shot.id, url: null, error: e.message });
+        }
+      }
+    }
+
+    // Launch concurrent workers
+    const workers = [];
+    for (let i = 0; i < concurrency; i++) {
+      workers.push(worker());
+    }
+    await Promise.all(workers);
+    return results;
+  },
+};
+
+/* ================================================================
+   Script → Storyboard Converter (LLM-powered)
+   Uses same LLM config as index.html (sd_llm_config in localStorage).
+   ================================================================ */
+const ScriptConverter = {
+  /** Read LLM config from sb_llm_script_config (isolated), fall back to index.html's sd_llm_config */
+  getLLMConfig() {
+    // 1st: storyboard's own config
+    const own = Storage.get(Storage.KEYS.LLM_SCRIPT, null);
+    if (own && own.apiKey && own.endpoint) return own;
+    // 2nd: fall back to index.html shared config
+    try {
+      const raw = localStorage.getItem('sd_llm_config');
+      if (raw) {
+        const shared = JSON.parse(raw);
+        if (shared && shared.apiKey && shared.endpoint) return shared;
+      }
+    } catch {}
+    // 3rd: hardcoded defaults (geeknow + glm-4.6)
+    return {
+      endpoint: 'http://geeknow.ai/v1/chat/completions',
+      apiKey: 'sk-kTRxu4DIOFQRDPeLpEqdYukZXcq8e5TFCctVVvLK9mqi5lSf',
+      model: 'glm-4.6',
+    };
+  },
+
+  /** Check if LLM is configured */
+  isReady() {
+    const cfg = this.getLLMConfig();
+    return !!(cfg.enabled && cfg.apiKey && cfg.endpoint);
+  },
+
+  /** Build a professional storyboard prompt for the LLM */
+  _buildSystemPrompt(stylePreset, ratio) {
+    const style = STYLE_PRESETS[stylePreset] || STYLE_PRESETS['cinematic'];
+    return `你是专业的影视分镜师和 Seedance 2.0 提示词专家。根据用户提供的剧本/故事内容，转化为结构化分镜词。
+
+## 输出格式（严格遵守）
+每个镜头必须包含以下字段（一行一个，格式为"字段：值"），镜头之间用空行分隔：
+
+## Shot N
+镜头类型：[Wide Shot / Medium Shot / Close-up / 等]
+主体：[角色或物体的详细描述，含外貌、衣着、关键特征]
+动作：[该镜头中主体的具体动作，一个镜头只写一个动作]
+运镜：[镜头运动+角度+焦距，如 Slow dolly-in from low angle · 50mm]
+灯光：[光线描述，用摄影术语，如 柔和窗光 · 暖色调]
+情绪：[该镜头的情绪氛围]
+台词：["角色对白" 或 （无台词）]
+时长：[3s/4s/5s/6s/8s]
+衔接：[如何过渡到下一个镜头]
+
+## 规则
+- 一般将剧本拆为 4-8 个镜头
+- 每个镜头只有一个核心动作节拍
+- 运镜必须具体（dolly/track/handheld/crane/static/orbit）+ 速度（slow/medium/fast）
+- 灯光用摄影术语（golden hour/soft overcast/hard neon/warm interior等）
+- 主体描述每次保持一致（同角色用相同外貌词，避免角色漂移）
+- 台词用英文或中文，标在引号内；无台词写（无台词）
+- 画面比例：${ratio === '9:16' ? '竖屏 9:16' : ratio === '1:1' ? '方形 1:1' : '横屏 16:9'}
+- 风格参考：${style.name}
+- 直接输出分镜词，不要任何前言、解释、总结`;
+  },
+
+  /**
+   * Convert script text to structured storyboard shots via LLM.
+   * On success, auto-fills the storyboard textarea and auto-parses.
+   */
+  async convert(scriptText) {
+    if (!scriptText || !scriptText.trim()) {
+      UI.toast('请先输入剧本内容', 'warning');
+      return;
+    }
+    if (!this.isReady()) {
+      UI.toast('请先在视频工作台（index.html）的 ⚙️ 设置中配置 AI 润色的 API Key', 'warning');
+      return;
+    }
+
+    const cfg = this.getLLMConfig();
+    const btn = document.getElementById('script-to-shots-btn');
+    const statusEl = document.getElementById('script-llm-status');
+    const origHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> AI 正在分析剧本...';
+    statusEl.textContent = '';
+
+    try {
+      const result = await this._callLLM(cfg, scriptText.trim());
+      // Clean up: strip markdown fences, leading/trailing whitespace
+      let cleaned = result
+        .replace(/^```[\s\S]*?\n/, '')
+        .replace(/\n```\s*$/, '')
+        .replace(/^```\s*$/, '')
+        .trim();
+
+      // Fill into storyboard textarea
+      const ta = document.getElementById('storyboard-input');
+      ta.value = cleaned;
+      ta.dispatchEvent(new Event('input', { bubbles: true }));
+
+      // Auto-parse
+      UI.doParse();
+
+      // Switch to free text tab in case it's on something else
+      document.querySelectorAll('#format-tabs .format-tab').forEach(t => t.classList.remove('active'));
+      const freeTab = document.querySelector('#format-tabs [data-format="free"]');
+      if (freeTab) freeTab.classList.add('active');
+      AppState.inputFormat = 'free';
+
+      // Show model info
+      statusEl.textContent = '✅ 由 ' + cfg.model + ' 生成 · ' + AppState.shots.length + ' 镜';
+      UI.toast('✅ AI 已将剧本转为 ' + AppState.shots.length + ' 个分镜，可预览并生成故事版图', 'success');
+    } catch (e) {
+      console.error('Script conversion error:', e);
+      statusEl.textContent = '❌ ' + (e.message || '转换失败');
+      UI.toast('❌ AI 转换失败: ' + (e.message || '未知错误'), 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = origHTML;
+    }
+  },
+
+  _callLLM(cfg, scriptText) {
+    return new Promise(function (resolve, reject) {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', cfg.endpoint, true);
+      xhr.timeout = 120000; // 2 min for long scripts
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.setRequestHeader('Authorization', 'Bearer ' + cfg.apiKey);
+
+      xhr.onload = function () {
+        try {
+          const json = JSON.parse(xhr.responseText);
+          if (json.error) {
+            reject(new Error(json.error.message || json.error.code || 'API Error'));
+            return;
+          }
+          const content = json.choices && json.choices[0] && json.choices[0].message && json.choices[0].message.content;
+          if (content) {
+            resolve(content);
+          } else {
+            reject(new Error('API 返回无内容'));
+          }
+        } catch (e) {
+          reject(new Error('解析 API 响应失败'));
+        }
+      };
+      xhr.onerror = function () {
+        reject(new Error('网络请求失败，请检查 LLM 端点是否可达'));
+      };
+      xhr.ontimeout = function () {
+        reject(new Error('请求超时（2分钟），请缩短剧本或重试'));
+      };
+
+      const body = JSON.stringify({
+        model: cfg.model,
+        messages: [
+          { role: 'system', content: ScriptConverter._buildSystemPrompt(AppState.stylePreset, AppState.ratio) },
+          { role: 'user', content: '请将以下剧本转为结构化分镜词：\n\n' + scriptText }
+        ],
+        max_tokens: 4096,
+        temperature: 0.7,
+      });
+      xhr.send(body);
+    });
+  },
+};
+
+/* ================================================================
+   UI
+   ================================================================ */
+const UI = {
+  _toastN: 0,
+
+  /* -- Header -- */
+  updateHeader() {
+    const has = ImageAPI.hasKey();
+    const dot = document.getElementById('api-key-dot');
+    const label = document.getElementById('api-key-label');
+    if (has) { dot.classList.add('active'); label.textContent = 'Image 2 · 已连接'; }
+    else { dot.classList.remove('active'); label.textContent = '未设置 Image 2 Key'; }
+  },
+
+  /* -- Settings -- */
+  showSettings() {
+    document.getElementById('settings-modal').style.display = 'flex';
+    document.getElementById('settings-endpoint').value = AppState.apiConfig.endpoint || 'https://api.jxincm.cn/v1';
+    document.getElementById('settings-model').value = AppState.apiConfig.model || 'gpt-image-2';
+    document.getElementById('settings-apikey').value = AppState.apiConfig.apiKey || '';
+    // LLM config for script analysis
+    const llmCfg = ScriptConverter.getLLMConfig();
+    document.getElementById('settings-llm-endpoint').value = llmCfg.endpoint || 'https://api.jxincm.cn/v1';
+    document.getElementById('settings-llm-model').value = llmCfg.model || 'gpt-4o';
+    document.getElementById('settings-llm-apikey').value = llmCfg.apiKey || '';
+  },
+  hideSettings() { document.getElementById('settings-modal').style.display = 'none'; },
+
+  saveSettings() {
+    AppState.apiConfig.endpoint = document.getElementById('settings-endpoint').value.trim();
+    AppState.apiConfig.model = document.getElementById('settings-model').value.trim();
+    AppState.apiConfig.apiKey = document.getElementById('settings-apikey').value.trim();
+    Storage.set(Storage.KEYS.IMAGE_API, AppState.apiConfig);
+    // Save LLM config
+    const llmCfg = {
+      endpoint: document.getElementById('settings-llm-endpoint').value.trim(),
+      model: document.getElementById('settings-llm-model').value.trim(),
+      apiKey: document.getElementById('settings-llm-apikey').value.trim(),
+    };
+    Storage.set(Storage.KEYS.LLM_SCRIPT, llmCfg);
+    // Update status indicator
+    const stEl = document.getElementById('script-llm-status');
+    if (stEl && llmCfg.apiKey && llmCfg.endpoint) {
+      stEl.textContent = '🟢 就绪 · ' + llmCfg.model;
+      stEl.style.color = 'var(--success)';
+    }
+    this.updateHeader();
+    this.hideSettings();
+    this.toast('✅ 配置已保存（含剧本分析模型）', 'success');
+  },
+
+  /* -- Input format tabs -- */
+  setFormat(format) {
+    AppState.inputFormat = format;
+    document.querySelectorAll('#format-tabs .format-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('#format-tabs [data-format="' + format + '"]').classList.add('active');
+  },
+
+  /* -- Style presets -- */
+  setStylePreset(style) {
+    AppState.stylePreset = style;
+    document.querySelectorAll('#style-presets .style-preset').forEach(b => b.classList.remove('active'));
+    document.querySelector('#style-presets [data-style="' + style + '"]').classList.add('active');
+    document.getElementById('custom-style-area').style.display = style === 'custom' ? '' : 'none';
+  },
+
+  /* -- Quality -- */
+  setQuality(level) {
+    AppState.qualityLevel = level;
+    document.querySelectorAll('#quality-presets .btn-option').forEach(b => b.classList.remove('active'));
+    document.querySelector('#quality-presets [data-quality="' + level + '"]').classList.add('active');
+    document.getElementById('custom-quality-area').style.display = level === 'custom' ? '' : 'none';
+  },
+
+  /* -- Parse and render -- */
+  doParse() {
+    const text = document.getElementById('storyboard-input').value;
+    if (!text.trim()) { UI.toast('请先输入分镜词', 'warning'); return; }
+
+    try {
+      const shots = parseShots(text, AppState.inputFormat);
+      if (!shots.length) { UI.toast('未能解析出镜头，请检查格式', 'warning'); return; }
+
+      AppState.shots = shots;
+
+      // Save to localStorage for recovery
+      Storage.set(Storage.KEYS.LAST_INPUT, text);
+      Storage.set(Storage.KEYS.LAST_SHOTS, shots.map(s => ({ ...s, imagePrompt: '', imageUrl: '', imageStatus: 'pending' })));
+
+      this.renderStoryboard();
+      this.updateShotCount();
+      document.getElementById('shot-summary').innerHTML = '✅ 解析出 <strong>' + shots.length + '</strong> 个镜头 · 格式：' + (AppState.inputFormat === 'free' ? '自由文本' : AppState.inputFormat);
+      this.toast('✅ 成功解析 ' + shots.length + ' 个镜头', 'success');
+    } catch (e) {
+      console.error('Parse error:', e);
+      UI.toast('❌ 解析失败: ' + e.message, 'error');
+    }
+  },
+
+  updateShotCount() {
+    const badge = document.getElementById('shot-count-badge');
+    if (AppState.shots.length) {
+      badge.style.display = '';
+      badge.textContent = AppState.shots.length + ' 镜';
+    } else {
+      badge.style.display = 'none';
+    }
+  },
+
+  /* -- Storyboard Grid -- */
+  renderStoryboard() {
+    const empty = document.getElementById('empty-state');
+    const gridContainer = document.getElementById('grid-container');
+    const grid = document.getElementById('sb-grid');
+
+    if (!AppState.shots.length) {
+      empty.style.display = '';
+      gridContainer.style.display = 'none';
+      return;
+    }
+
+    empty.style.display = 'none';
+    gridContainer.style.display = '';
+    document.getElementById('storyboard-title').textContent = '🎬 故事版 · ' + AppState.shots.length + ' 镜';
+
+    // Get dot color based on shot type
+    function dotClass(st) {
+      const t = (st || '').toLowerCase();
+      if (/wide|全景|远景|establishing/i.test(t)) return 'establishing';
+      if (/close|特写|近景|tight/i.test(t)) return 'close';
+      if (/medium|中景|mid/i.test(t)) return 'medium';
+      return 'wide';
+    }
+
+    // Get shot type display name
+    function shotTypeDisplay(st) {
+      if (!st) return '';
+      const map = {
+        'wide shot': '广角远景', 'wide': '广角远景', 'establishing shot': '定场镜头', 'establishing': '定场',
+        'medium shot': '中景', 'medium': '中景', 'mid shot': '中景',
+        'close-up': '特写', 'closeup': '特写', 'close up': '特写',
+        'medium close-up': '中近景', 'medium closeup': '中近景',
+        'extreme close-up': '大特写', 'extreme closeup': '大特写',
+      };
+      return map[st.toLowerCase()] || st;
+    }
+
+    grid.innerHTML = AppState.shots.map((s, i) => `
+      <div class="shot-card ${s.imageStatus === 'generating' ? 'generating' : ''} ${s.imageStatus === 'error' ? 'error' : ''}" data-shot-id="${s.id}">
+        <!-- Header -->
+        <div class="shot-header">
+          <div class="shot-number">
+            <span class="dot ${dotClass(s.shotType)}"></span>
+            Shot ${i + 1}
+            <span class="shot-type-badge">${shotTypeDisplay(s.shotType) || '未指定'}</span>
+            ${s.duration ? '<span class="shot-type-badge">⏱ ' + UI._esc(s.duration) + '</span>' : ''}
+          </div>
+          <div class="shot-header-actions">
+            <button title="编辑此镜" data-act="edit" data-sid="${s.id}">✏️</button>
+            <button title="重新生成" data-act="regenerate" data-sid="${s.id}">🔄</button>
+            <button title="下载图片" data-act="download" data-sid="${s.id}">⬇️</button>
+          </div>
+        </div>
+
+        <!-- Image Area -->
+        <div class="shot-image-wrap" data-sid="${s.id}">
+          ${s.imageUrl
+            ? '<img src="' + UI._escAttr(s.imageUrl) + '" alt="Shot ' + (i+1) + '" loading="lazy">'
+            : '<div class="placeholder"><span class="icon">🎬</span><span>等待生成</span></div>'}
+          ${s.imageStatus === 'generating' ? '<div class="generating-overlay"><div class="big-spinner"></div><div class="gen-text">🖼️ Image 2 正在生成故事版图...</div></div>' : ''}
+          ${s.imageStatus === 'error' ? '<div class="generating-overlay" style="background:rgba(239,68,68,0.3);"><span style="font-size:2rem;">❌</span><div class="gen-text" style="color:#EF4444;">' + UI._esc(s.imageError || '生成失败') + '</div></div>' : ''}
+        </div>
+
+        <!-- Annotations Grid -->
+        <div class="shot-annotations">
+          ${s.subject ? '<div class="annotation-item"><span class="annotation-label subject">🏷️ 主体</span><span class="annotation-value">' + UI._esc(s.subject) + '</span></div>' : ''}
+          ${s.action ? '<div class="annotation-item"><span class="annotation-label action">🎯 动作</span><span class="annotation-value">' + UI._esc(s.action) + '</span></div>' : ''}
+          ${s.camera ? '<div class="annotation-item"><span class="annotation-label camera">📷 运镜 / 机位</span><span class="annotation-value">' + UI._esc(s.camera) + '</span></div>' : ''}
+          ${s.emotion ? '<div class="annotation-item"><span class="annotation-label emotion">🎭 情绪</span><span class="annotation-value">' + UI._esc(s.emotion) + '</span></div>' : ''}
+          ${s.dialogue ? '<div class="annotation-item full-width"><span class="annotation-label dialogue">💬 台词</span><span class="annotation-value">"' + UI._esc(s.dialogue) + '"</span></div>' : ''}
+          ${s.lighting ? '<div class="annotation-item"><span class="annotation-label quality">💡 灯光</span><span class="annotation-value">' + UI._esc(s.lighting) + '</span></div>' : ''}
+          ${s.quality ? '<div class="annotation-item"><span class="annotation-label quality">🎨 画质</span><span class="annotation-value">' + UI._esc(s.quality) + '</span></div>' : ''}
+          ${s.continuity ? '<div class="annotation-item full-width"><span class="annotation-label continuity">🔗 衔接</span><span class="annotation-value">' + UI._esc(s.continuity) + '</span></div>' : ''}
+        </div>
+
+        <!-- Edit Panel (hidden by default) -->
+        <div class="shot-edit-panel" id="edit-${s.id}">
+          <div class="edit-row">
+            <label>镜别</label><input id="edit-st-${s.id}" value="${UI._escAttr(s.shotType)}" placeholder="例如：Medium Close-up">
+            <label>时长</label><input id="edit-dur-${s.id}" value="${UI._escAttr(s.duration)}" placeholder="例如：5s" style="max-width:80px;">
+          </div>
+          <div class="edit-row">
+            <label>主体</label><input id="edit-sub-${s.id}" value="${UI._escAttr(s.subject)}" placeholder="角色或物体的具体描述">
+          </div>
+          <div class="edit-row">
+            <label>动作</label><input id="edit-act-${s.id}" value="${UI._escAttr(s.action)}" placeholder="镜头中的动作">
+          </div>
+          <div class="edit-row">
+            <label>运镜</label><input id="edit-cam-${s.id}" value="${UI._escAttr(s.camera)}" placeholder="例如：Slow dolly-in · Eye level · 50mm">
+          </div>
+          <div class="edit-row">
+            <label>灯光</label><input id="edit-lit-${s.id}" value="${UI._escAttr(s.lighting)}" placeholder="例如：Soft window light · warm tone">
+          </div>
+          <div class="edit-row">
+            <label>情绪</label><input id="edit-emo-${s.id}" value="${UI._escAttr(s.emotion)}" placeholder="例如：紧张压抑">
+            <label>台词</label><input id="edit-dia-${s.id}" value="${UI._escAttr(s.dialogue)}" placeholder="角色对白">
+          </div>
+          <div class="edit-row">
+            <label>衔接</label><input id="edit-con-${s.id}" value="${UI._escAttr(s.continuity)}" placeholder="例如：动作匹配 → Shot ${i+2}">
+          </div>
+          <div style="display:flex;gap:var(--space-2);margin-top:var(--space-2);">
+            <button class="btn btn-primary btn-xs" data-act="save-edit" data-sid="${s.id}">💾 保存修改</button>
+            <button class="btn btn-secondary btn-xs" data-act="cancel-edit" data-sid="${s.id}">取消</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    // Attach event listeners
+    this._attachCardEvents();
+  },
+
+  _attachCardEvents() {
+    const grid = document.getElementById('sb-grid');
+    if (!grid) return;
+
+    // Click on image to enlarge
+    grid.querySelectorAll('.shot-image-wrap img').forEach(img => {
+      img.addEventListener('click', function() {
+        const url = this.src;
+        if (url) window.open(url, '_blank');
+      });
+    });
+
+    // Card action buttons
+    grid.querySelectorAll('[data-act]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const act = btn.dataset.act;
+        const sid = btn.dataset.sid;
+        switch (act) {
+          case 'edit': UI.toggleEdit(sid); break;
+          case 'regenerate': UI.regenerateShot(sid); break;
+          case 'download': UI.downloadShotImage(sid); break;
+          case 'save-edit': UI.saveEdit(sid); break;
+          case 'cancel-edit': UI.toggleEdit(sid); break;
+        }
+      });
+    });
+  },
+
+  /* -- Shot Edit -- */
+  toggleEdit(sid) {
+    const panel = document.getElementById('edit-' + sid);
+    if (panel) panel.classList.toggle('open');
+  },
+
+  saveEdit(sid) {
+    const shot = AppState.shots.find(s => s.id === sid);
+    if (!shot) return;
+    shot.shotType = document.getElementById('edit-st-' + sid)?.value || '';
+    shot.duration = document.getElementById('edit-dur-' + sid)?.value || '';
+    shot.subject = document.getElementById('edit-sub-' + sid)?.value || '';
+    shot.action = document.getElementById('edit-act-' + sid)?.value || '';
+    shot.camera = document.getElementById('edit-cam-' + sid)?.value || '';
+    shot.lighting = document.getElementById('edit-lit-' + sid)?.value || '';
+    shot.emotion = document.getElementById('edit-emo-' + sid)?.value || '';
+    shot.dialogue = document.getElementById('edit-dia-' + sid)?.value || '';
+    shot.continuity = document.getElementById('edit-con-' + sid)?.value || '';
+    shot.imageStatus = 'pending';
+    shot.imageUrl = '';
+    shot.imageError = '';
+    this.renderStoryboard();
+    this.toast('✅ Shot 修改已保存，请重新生成图片', 'info');
+  },
+
+  /* -- Generate All -- */
+  async generateAll() {
+    if (!ImageAPI.hasKey()) {
+      UI.toast('请先在设置中配置 Image 2 API Key', 'warning');
+      UI.showSettings();
+      return;
+    }
+    if (!AppState.shots.length) {
+      UI.toast('请先解析分镜词', 'warning');
+      return;
+    }
+
+    // Build prompts for all shots
+    const customStyle = document.getElementById('custom-style-input')?.value || '';
+    const customQuality = document.getElementById('custom-quality-input')?.value || '';
+    const negativeConstraints = document.getElementById('negative-constraints')?.value || '';
+
+    AppState.shots.forEach(shot => {
+      if (shot.imageStatus !== 'done') {
+        shot.imagePrompt = buildImagePrompt(
+          shot, AppState.stylePreset, AppState.qualityLevel,
+          AppState.ratio, customStyle, customQuality, negativeConstraints
+        );
+        shot.imageStatus = 'pending';
+        shot.imageUrl = '';
+        shot.imageError = '';
+      }
+    });
+
+    // Filter shots that need generation
+    const pendingShots = AppState.shots.filter(s => s.imageStatus !== 'done');
+    if (!pendingShots.length) {
+      UI.toast('所有镜头已生成完毕', 'info');
+      return;
+    }
+
+    AppState.generating = true;
+    const btn = document.getElementById('generate-btn');
+    btn.classList.add('loading');
+    btn.disabled = true;
+
+    this.renderStoryboard();
+
+    UI.toast('🖼️ 开始生成 ' + pendingShots.length + ' 个故事版图...（并发 3）', 'info');
+
+    try {
+      await ImageAPI.generateBatch(pendingShots, 3, (shotId, status, url, error) => {
+        const shot = AppState.shots.find(s => s.id === shotId);
+        if (!shot) return;
+        shot.imageStatus = status;
+        if (url) shot.imageUrl = url;
+        if (error) shot.imageError = error;
+        this.renderStoryboard();
+      });
+
+      const done = AppState.shots.filter(s => s.imageStatus === 'done').length;
+      const failed = AppState.shots.filter(s => s.imageStatus === 'error').length;
+      if (failed > 0) {
+        UI.toast('⚠️ 完成 ' + done + '/' + AppState.shots.length + ' 个，' + failed + ' 个失败', 'warning');
+      } else {
+        UI.toast('✅ 全部 ' + done + ' 个故事版图生成完成！', 'success');
+      }
+    } catch (e) {
+      console.error('Batch generation error:', e);
+      UI.toast('❌ 生成失败: ' + e.message, 'error');
+    } finally {
+      AppState.generating = false;
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  },
+
+  /* -- Regenerate single shot -- */
+  async regenerateShot(sid) {
+    if (!ImageAPI.hasKey()) { UI.toast('请先设置 API Key', 'warning'); return; }
+    const shot = AppState.shots.find(s => s.id === sid);
+    if (!shot) return;
+
+    const customStyle = document.getElementById('custom-style-input')?.value || '';
+    const customQuality = document.getElementById('custom-quality-input')?.value || '';
+    const negativeConstraints = document.getElementById('negative-constraints')?.value || '';
+
+    shot.imagePrompt = buildImagePrompt(
+      shot, AppState.stylePreset, AppState.qualityLevel,
+      AppState.ratio, customStyle, customQuality, negativeConstraints
+    );
+    shot.imageStatus = 'generating';
+    shot.imageError = '';
+    this.renderStoryboard();
+
+    try {
+      const result = await ImageAPI.generateImage(shot.imagePrompt, shot.size);
+      shot.imageUrl = result.url;
+      shot.imageStatus = 'done';
+      this.renderStoryboard();
+      UI.toast('✅ Shot 重新生成完成', 'success');
+    } catch (e) {
+      shot.imageStatus = 'error';
+      shot.imageError = e.message;
+      this.renderStoryboard();
+      UI.toast('❌ 生成失败: ' + e.message, 'error');
+    }
+  },
+
+  /* -- Download single shot image -- */
+  downloadShotImage(sid) {
+    const shot = AppState.shots.find(s => s.id === sid);
+    if (!shot || !shot.imageUrl) { UI.toast('没有可下载的图片', 'warning'); return; }
+    const a = document.createElement('a');
+    a.href = shot.imageUrl;
+    a.download = 'storyboard_' + sid + '.png';
+    a.target = '_blank';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  },
+
+  /* -- Export all images -- */
+  exportAll() {
+    const doneShots = AppState.shots.filter(s => s.imageUrl);
+    if (!doneShots.length) { UI.toast('没有已生成的图片可导出', 'warning'); return; }
+
+    doneShots.forEach((s, i) => {
+      setTimeout(() => {
+        const a = document.createElement('a');
+        a.href = s.imageUrl;
+        a.download = 'storyboard_shot' + (i + 1) + '.png';
+        a.target = '_blank';
+        a.rel = 'noopener';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }, i * 300);
+    });
+    UI.toast('📥 正在下载 ' + doneShots.length + ' 张图片...', 'info');
+  },
+
+  /* -- Copy all prompts -- */
+  copyAllPrompts() {
+    const text = AppState.shots.map((s, i) => {
+      return [
+        '## Shot ' + (i + 1),
+        'Shot Type: ' + (s.shotType || 'N/A'),
+        'Subject: ' + (s.subject || 'N/A'),
+        'Action: ' + (s.action || 'N/A'),
+        'Camera: ' + (s.camera || 'N/A'),
+        'Lighting: ' + (s.lighting || 'N/A'),
+        'Emotion: ' + (s.emotion || 'N/A'),
+        (s.dialogue ? 'Dialogue: "' + s.dialogue + '"' : ''),
+        (s.continuity ? 'Continuity: ' + s.continuity : ''),
+        '--- Image 2 Prompt ---',
+        s.imagePrompt || '(not yet generated)',
+        s.imageUrl || '',
+        '',
+      ].filter(Boolean).join('\n');
+    }).join('\n---\n\n');
+
+    navigator.clipboard.writeText(text).then(() => {
+      UI.toast('📋 已复制 ' + AppState.shots.length + ' 个镜头的完整提示词', 'success');
+    }).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      UI.toast('📋 已复制', 'success');
+    });
+  },
+
+  /* -- Clear all -- */
+  clearAll() {
+    if (!confirm('确定清除全部镜头和生成结果？')) return;
+    AppState.shots = [];
+    document.getElementById('storyboard-input').value = '';
+    document.getElementById('shot-summary').innerHTML = '';
+    this.updateShotCount();
+    this.renderStoryboard();
+    Storage.remove(Storage.KEYS.LAST_SHOTS);
+    Storage.remove(Storage.KEYS.LAST_INPUT);
+  },
+
+  /* -- Paste sample -- */
+  pasteSample() {
+    const sample = `## Shot 1
+镜头类型：Wide establishing shot
+主体：林冲·中年·青色布衣·长枪在手·斗笠遮面
+动作：独行于漫天风雪中，步履沉重缓慢
+运镜：Slow dolly-in from low angle · 24mm wide · gradual crane up
+灯光：阴冷漫射雪光 · 低反差 · 灰白主导 · 远处微弱的暖灯笼光
+情绪：孤寂、压抑、前路茫茫
+台词："这風雪……何时是个尽头……"
+时长：5s
+衔接：风雪渐大，镜头推向人物 → Shot 2
+
+## Shot 2
+镜头类型：Medium shot
+主体：林冲·同装束·面部半掩于斗笠阴影中
+动作：停下脚步，缓缓抬头望向远方山神庙
+运镜：Static locked shot → slow push-in to medium close-up · Eye level · 35mm
+灯光：冷色调雪光为主，面部一侧被远处火光微微映暖
+情绪：警觉、暗流涌动
+台词："那里……"
+时长：4s
+衔接：视线方向匹配 → Shot 3
+
+## Shot 3
+镜头类型：Close-up
+主体：林冲·面部从斗笠阴影中显露·眼神复杂
+动作：眼神从警觉转为坚定，嘴角微微收紧
+运镜：Extreme slow push-in to tight close-up · 85mm telephoto feel · shallow depth of field
+灯光：暖色火光逐渐占据面部，冷色退至边缘，强烈的明暗对比
+情绪：压抑转为决绝
+台词：（无台词，仅凭表情）
+时长：3s
+衔接：眼神落点 → Shot 4
+
+## Shot 4
+镜头类型：Wide shot
+主体：林冲背影·山神庙大门在前方风雪中显现
+动作：走向山神庙大门，斗笠上积雪滑落
+运镜：Slow crane up from behind · 50mm · parallax movement · silhouette against firelight
+灯光：门内火光透出形成逆光剪影 · 雪地反射暖橙色 · 烟雾缭绕
+情绪：命运转折、壮烈
+台词：（无台词）
+时长：5s
+衔接：（本镜为结尾镜）`;
+
+    document.getElementById('storyboard-input').value = sample;
+    document.getElementById('storyboard-input').dispatchEvent(new Event('input', { bubbles: true }));
+    UI.toast('📋 已粘贴示例分镜词（林冲风雪山神庙·4镜）', 'info');
+  },
+
+  /* -- Toast -- */
+  toast(msg, type) {
+    const ct = document.getElementById('toast-container');
+    const id = 'toast-' + (++this._toastN);
+    const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+    const el = document.createElement('div');
+    el.id = id;
+    el.className = 'toast ' + (type || 'info');
+    el.innerHTML = '<span class="toast-msg">' + (icons[type] || '') + ' ' + this._esc(msg) + '</span><button class="toast-close">✕</button>';
+    ct.appendChild(el);
+    const close = () => { el.classList.add('out'); setTimeout(() => { if (el.parentNode) el.remove(); }, 300); };
+    el.querySelector('.toast-close').addEventListener('click', close);
+    setTimeout(close, 5000);
+    const all = ct.querySelectorAll('.toast');
+    if (all.length > 3) { const old = all[0]; old.classList.add('out'); setTimeout(() => { if (old.parentNode) old.remove(); }, 300); }
+  },
+
+  _esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; },
+  _escAttr(s) { return (s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;'); },
+};
+
+/* ================================================================
+   Event Bindings
+   ================================================================ */
+function bindEvents() {
+  // Script toggle
+  document.getElementById('script-toggle').addEventListener('click', function () {
+    this.classList.toggle('open');
+    document.getElementById('script-body').classList.toggle('open');
+  });
+
+  // Script → Storyboard AI button
+  document.getElementById('script-to-shots-btn').addEventListener('click', function () {
+    ScriptConverter.convert(document.getElementById('script-input').value);
+  });
+
+  // Settings
+  document.getElementById('settings-btn').addEventListener('click', () => UI.showSettings());
+  document.getElementById('api-key-indicator').addEventListener('click', () => UI.showSettings());
+  document.getElementById('close-settings-btn').addEventListener('click', () => UI.hideSettings());
+  document.getElementById('save-settings-btn').addEventListener('click', () => UI.saveSettings());
+  document.getElementById('toggle-key-btn').addEventListener('click', () => {
+    const e = document.getElementById('settings-apikey');
+    e.type = e.type === 'password' ? 'text' : 'password';
+  });
+
+  // LLM config toggle in settings
+  document.getElementById('llm-config-toggle').addEventListener('click', function () {
+    const body = document.getElementById('llm-config-body');
+    const arrow = document.getElementById('llm-toggle-arrow');
+    if (body.style.display === 'none') {
+      body.style.display = 'block';
+      arrow.textContent = '▼';
+    } else {
+      body.style.display = 'none';
+      arrow.textContent = '▶';
+    }
+  });
+  document.getElementById('toggle-llm-key-btn').addEventListener('click', () => {
+    const e = document.getElementById('settings-llm-apikey');
+    e.type = e.type === 'password' ? 'text' : 'password';
+  });
+
+  // Close settings modal on overlay click
+  document.getElementById('settings-modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('settings-modal')) UI.hideSettings();
+  });
+
+  // Format tabs
+  document.getElementById('format-tabs').addEventListener('click', e => {
+    const tab = e.target.closest('.format-tab');
+    if (tab) UI.setFormat(tab.dataset.format);
+  });
+
+  // Style presets
+  document.getElementById('style-presets').addEventListener('click', e => {
+    const btn = e.target.closest('.style-preset');
+    if (btn) UI.setStylePreset(btn.dataset.style);
+  });
+
+  // Custom style input
+  document.getElementById('custom-style-input').addEventListener('input', function() {
+    // Live update
+  });
+
+  // Ratio
+  document.getElementById('ratio-group').addEventListener('click', e => {
+    const btn = e.target.closest('.btn-option');
+    if (!btn) return;
+    document.querySelectorAll('#ratio-group .btn-option').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    AppState.ratio = btn.dataset.value;
+    document.getElementById('ratio-value').textContent = btn.dataset.value;
+  });
+
+  // Quality presets
+  document.getElementById('quality-presets').addEventListener('click', e => {
+    const btn = e.target.closest('.btn-option');
+    if (btn) UI.setQuality(btn.dataset.quality);
+  });
+
+  // Parse button
+  document.getElementById('parse-btn').addEventListener('click', () => UI.doParse());
+
+  // Paste sample
+  document.getElementById('paste-sample-btn').addEventListener('click', () => UI.pasteSample());
+
+  // Generate button
+  document.getElementById('generate-btn').addEventListener('click', () => UI.generateAll());
+
+  // Export / Copy / Clear
+  document.getElementById('export-all-btn').addEventListener('click', () => UI.exportAll());
+  document.getElementById('copy-prompts-btn').addEventListener('click', () => UI.copyAllPrompts());
+  document.getElementById('clear-all-btn').addEventListener('click', () => UI.clearAll());
+
+  // Storyboard input — auto-parse on Ctrl+Enter
+  document.getElementById('storyboard-input').addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      UI.doParse();
+    }
+  });
+
+  // ---- Panel Divider Drag ----
+  const divider = document.getElementById('panel-divider');
+  const left = document.getElementById('control-panel');
+  let isDragging = false, startX = 0, startW = 0;
+
+  divider.addEventListener('mousedown', function(e) {
+    isDragging = true;
+    startX = e.clientX;
+    startW = left.offsetWidth;
+    divider.classList.add('dragging');
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    const newW = startW + e.clientX - startX;
+    left.style.width = Math.max(300, Math.min(600, newW)) + 'px';
+  });
+
+  document.addEventListener('mouseup', function() {
+    if (!isDragging) return;
+    isDragging = false;
+    divider.classList.remove('dragging');
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  });
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if (document.getElementById('settings-modal').style.display === 'flex') {
+        UI.hideSettings();
+      }
+    }
+  });
+}
+
+/* ================================================================
+   Init
+   ================================================================ */
+function init() {
+  bindEvents();
+  UI.updateHeader();
+
+  // Show LLM status in script section
+  const statusEl = document.getElementById('script-llm-status');
+  if (statusEl) {
+    if (ScriptConverter.isReady()) {
+      const cfg = ScriptConverter.getLLMConfig();
+      const ownCfg = Storage.get(Storage.KEYS.LLM_SCRIPT, null);
+      const source = (ownCfg && ownCfg.apiKey) ? '' : ' · 复用工作台配置';
+      statusEl.textContent = '🟢 就绪 · ' + cfg.model + source;
+      statusEl.style.color = 'var(--success)';
+    } else {
+      statusEl.textContent = '⚠️ 未配置，请点右上⚙️设置';
+      statusEl.style.color = 'var(--warning)';
+    }
+  }
+
+  // Restore last input/shots from localStorage
+  const lastInput = Storage.get(Storage.KEYS.LAST_INPUT, '');
+  const lastShots = Storage.get(Storage.KEYS.LAST_SHOTS, []);
+
+  if (lastInput) {
+    document.getElementById('storyboard-input').value = lastInput;
+  }
+  if (lastShots.length) {
+    AppState.shots = lastShots;
+    UI.renderStoryboard();
+    UI.updateShotCount();
+    document.getElementById('shot-summary').innerHTML = '📂 已恢复 <strong>' + lastShots.length + '</strong> 个镜头（上次会话）';
+  }
+
+  // If no data at all, show the sample
+  if (!lastInput && !lastShots.length) {
+    // Leave empty — user can click "粘贴示例"
+  }
+}
+
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+else init();
+
+})();
+</script>
+</body>
+</html>
